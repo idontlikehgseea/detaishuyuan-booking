@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>德泰书院预约系统</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="logo">德泰书院</div>
+        </div>
+        <div class="nav-links">
+            <a href="#booking" class="nav-link active">预约</a>
+            <a href="#admin" class="nav-link" id="adminLink">管理后台</a>
+            <a href="#about" class="nav-link">关于</a>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="main-container">
+        <!-- 预约页面 -->
+        <section id="booking" class="page active">
+            <div class="hero-section">
+                <h1 class="hero-title">德泰书院预约系统</h1>
+                <p class="hero-subtitle">周一至周五 17:00-21:00 开放预约</p>
+            </div>
+
+            <div class="booking-container">
+                <!-- 步骤指示器 -->
+                <div class="step-indicator">
+                    <div class="step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-label">选择日期</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-label">选择类型</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-label">填写信息</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step" data-step="4">
+                        <div class="step-number">4</div>
+                        <div class="step-label">确认提交</div>
+                    </div>
+                </div>
+
+                <!-- 步骤1：选择日期 -->
+                <div class="step-content active" id="step1">
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <button class="btn-prev" id="prevMonth">&lt;</button>
+                            <h3 class="calendar-title" id="calendarTitle">2026年5月</h3>
+                            <button class="btn-next" id="nextMonth">&gt;</button>
+                        </div>
+                        <div class="calendar-weekdays">
+                            <div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div>
+                        </div>
+                        <div class="calendar-days" id="calendarDays"></div>
+                    </div>
+                    <div class="legend">
+                        <div class="legend-item"><span class="legend-dot available"></span>可预约</div>
+                        <div class="legend-item"><span class="legend-dot selected"></span>已选择</div>
+                        <div class="legend-item"><span class="legend-dot disabled"></span>不可预约</div>
+                        <div class="legend-item"><span class="legend-dot full"></span>已满</div>
+                    </div>
+                </div>
+
+                <!-- 步骤2：选择类型 -->
+                <div class="step-content" id="step2">
+                    <div class="type-selection">
+                        <h3>请选择预约类型</h3>
+                        <div class="type-cards">
+                            <div class="type-card" data-type="activity">
+                                <div class="type-icon">📚</div>
+                                <h4>活动预约</h4>
+                                <p>举办讲座、研讨会、读书会等活动</p>
+                                <div class="type-features">
+                                    <span>需填写活动内容</span>
+                                    <span>需填写承办部门</span>
+                                </div>
+                            </div>
+                            <div class="type-card" data-type="study">
+                                <div class="type-icon">📖</div>
+                                <h4>自习预约</h4>
+                                <p>个人或小组自习使用</p>
+                                <div class="type-features">
+                                    <span>安静环境</span>
+                                    <span>无需额外信息</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤3：填写信息 -->
+                <div class="step-content" id="step3">
+                    <div class="form-container">
+                        <h3>填写预约信息</h3>
+                        <form id="bookingForm">
+                            <div class="form-group">
+                                <label for="name">姓名 *</label>
+                                <input type="text" id="name" name="name" required placeholder="请输入您的姓名">
+                            </div>
+                            <div class="form-group">
+                                <label for="studentId">学号 *</label>
+                                <input type="text" id="studentId" name="studentId" required placeholder="请输入您的学号">
+                            </div>
+
+                            <!-- 活动类型额外字段 -->
+                            <div id="activityFields" class="hidden">
+                                <div class="form-group">
+                                    <label for="activityContent">活动内容 *</label>
+                                    <textarea id="activityContent" name="activityContent" rows="3" placeholder="请描述活动内容"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="department">承办部门 *</label>
+                                    <input type="text" id="department" name="department" placeholder="请输入承办部门">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">联系电话</label>
+                                <input type="tel" id="phone" name="phone" placeholder="请输入联系电话">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">邮箱</label>
+                                <input type="email" id="email" name="email" placeholder="请输入邮箱">
+                            </div>
+                            <div class="form-group">
+                                <label for="notes">备注</label>
+                                <textarea id="notes" name="notes" rows="2" placeholder="其他需要说明的事项"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- 步骤4：确认提交 -->
+                <div class="step-content" id="step4">
+                    <div class="confirm-container">
+                        <h3>确认预约信息</h3>
+                        <div class="confirm-card">
+                            <div class="confirm-item">
+                                <span class="confirm-label">预约日期</span>
+                                <span class="confirm-value" id="confirmDate">-</span>
+                            </div>
+                            <div class="confirm-item">
+                                <span class="confirm-label">预约类型</span>
+                                <span class="confirm-value" id="confirmType">-</span>
+                            </div>
+                            <div class="confirm-item">
+                                <span class="confirm-label">姓名</span>
+                                <span class="confirm-value" id="confirmName">-</span>
+                            </div>
+                            <div class="confirm-item">
+                                <span class="confirm-label">学号</span>
+                                <span class="confirm-value" id="confirmStudentId">-</span>
+                            </div>
+                            <div class="confirm-item activity-only hidden">
+                                <span class="confirm-label">活动内容</span>
+                                <span class="confirm-value" id="confirmActivity">-</span>
+                            </div>
+                            <div class="confirm-item activity-only hidden">
+                                <span class="confirm-label">承办部门</span>
+                                <span class="confirm-value" id="confirmDepartment">-</span>
+                            </div>
+                        </div>
+                        <div class="qr-section">
+                            <p>预约成功后，请保存下方二维码，到店扫描核销</p>
+                            <div class="qr-placeholder" id="bookingQR">
+                                <div class="qr-code">QR</div>
+                                <p class="qr-hint">预约后生成</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 操作按钮 -->
+                <div class="step-actions">
+                    <button class="btn-secondary" id="btnPrev" style="display:none">上一步</button>
+                    <button class="btn-primary" id="btnNext">下一步</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 管理后台 -->
+        <section id="admin" class="page">
+            <div class="admin-login" id="adminLogin">
+                <div class="login-card">
+                    <h2>管理后台登录</h2>
+                    <div class="form-group">
+                        <label>管理员密码</label>
+                        <input type="password" id="adminPassword" placeholder="请输入管理员密码">
+                    </div>
+                    <button class="btn-primary" id="btnLogin">登录</button>
+                    <p class="hint">默认密码: admin123</p>
+                </div>
+            </div>
+
+            <div class="admin-panel hidden" id="adminPanel">
+                <div class="admin-header">
+                    <h2>预约管理</h2>
+                    <div class="admin-stats">
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalBookings">0</div>
+                            <div class="stat-label">总预约</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="todayBookings">0</div>
+                            <div class="stat-label">今日预约</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="pendingCheckin">0</div>
+                            <div class="stat-label">待核销</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-filters">
+                    <input type="date" id="filterDate" class="filter-input">
+                    <select id="filterType" class="filter-input">
+                        <option value="">全部类型</option>
+                        <option value="activity">活动</option>
+                        <option value="study">自习</option>
+                    </select>
+                    <input type="text" id="filterSearch" class="filter-input" placeholder="搜索姓名/学号">
+                    <button class="btn-primary" id="btnRefresh">刷新</button>
+                </div>
+
+                <div class="bookings-table-container">
+                    <table class="bookings-table">
+                        <thead>
+                            <tr>
+                                <th>日期</th>
+                                <th>类型</th>
+                                <th>姓名</th>
+                                <th>学号</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookingsTableBody"></tbody>
+                    </table>
+                </div>
+
+                <!-- 核销页面 -->
+                <div class="checkin-section">
+                    <h3>扫码核销</h3>
+                    <div class="checkin-box">
+                        <input type="text" id="checkinCode" class="checkin-input" placeholder="输入核销码或扫描二维码">
+                        <button class="btn-primary" id="btnCheckin">核销</button>
+                    </div>
+                    <div class="checkin-result" id="checkinResult"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 关于页面 -->
+        <section id="about" class="page">
+            <div class="about-container">
+                <div class="about-header">
+                    <h1>关于德泰书院</h1>
+                </div>
+                <div class="about-content">
+                    <div class="about-card">
+                        <h3>开放时间</h3>
+                        <p>每周一至周五</p>
+                        <p class="highlight">17:00 - 21:00</p>
+                        <p class="note">周末及法定节假日不开放</p>
+                    </div>
+                    <div class="about-card">
+                        <h3>预约须知</h3>
+                        <ul>
+                            <li>请提前至少一天预约</li>
+                            <li>活动预约需填写详细内容</li>
+                            <li>预约后请准时到场</li>
+                            <li>如需取消请提前联系</li>
+                        </ul>
+                    </div>
+                    <div class="about-card">
+                        <h3>联系方式</h3>
+                        <p>地址：德泰书院一楼服务台</p>
+                        <p>电话：021-XXXX-XXXX</p>
+                        <p>邮箱：detaishuyuan@example.com</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 弹窗 -->
+    <div class="modal-overlay hidden" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">提示</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="modalCancel">取消</button>
+                <button class="btn-primary" id="modalConfirm">确认</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 预约详情弹窗 -->
+    <div class="modal-overlay hidden" id="detailModal">
+        <div class="modal modal-large">
+            <div class="modal-header">
+                <h3>预约详情</h3>
+                <button class="modal-close" id="detailClose">&times;</button>
+            </div>
+            <div class="modal-body" id="detailBody"></div>
+            <div class="modal-footer">
+                <button class="btn-danger" id="btnDelete">删除预约</button>
+                <button class="btn-secondary" id="detailCloseBtn">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast 提示 -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
